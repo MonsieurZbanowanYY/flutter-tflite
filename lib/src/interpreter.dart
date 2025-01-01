@@ -177,6 +177,7 @@ class Interpreter {
   if (outputs.isEmpty) {
     throw ArgumentError('Input error: Outputs should not be null or empty.');
   }
+   print('test')
   runInference(inputs);
 
 
