@@ -181,6 +181,10 @@ class Interpreter {
 
 
   var outputTensors = getOutputTensors();
+for (var tensor in outputTensors) {
+  print(tensor.shape); 
+}
+
 
 
   if (outputTensors.length != outputs.length) {
