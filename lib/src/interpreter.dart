@@ -202,9 +202,6 @@ for (var tensor in outputTensors) {
     }
 
 
-    if (tensor.shape != outputs[outputKey]!.shape) {
-      throw ArgumentError('Shape mismatch: Tensor shape ${tensor.shape} does not match the expected shape.');
-    }
 
 
     tensor.copyTo(outputs[outputKey]!);
