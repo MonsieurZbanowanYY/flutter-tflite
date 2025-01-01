@@ -178,21 +178,34 @@ class Interpreter {
     throw ArgumentError('Input error: Outputs should not be null or empty.');
   }
   runInference(inputs);
+
+
   var outputTensors = getOutputTensors();
+
 
   if (outputTensors.length != outputs.length) {
     throw ArgumentError('Mismatch between number of output tensors and output map entries.');
   }
+
+
   for (var i = 0; i < outputTensors.length; i++) {
     var tensor = outputTensors[i];
-    var outputKey = outputs.keys.elementAt(i);
+    var outputKey = outputs.keys.elementAt(i); 
+
     if (!outputs.containsKey(outputKey)) {
       throw ArgumentError('Output key $outputKey is missing in the outputs map.');
     }
 
+
+    if (tensor.shape != outputs[outputKey]!.shape) {
+      throw ArgumentError('Shape mismatch: Tensor shape ${tensor.shape} does not match the expected shape.');
+    }
+
+
     tensor.copyTo(outputs[outputKey]!);
   }
 }
+
 
 
   /// Just run inference
