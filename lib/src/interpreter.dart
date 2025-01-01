@@ -173,16 +173,27 @@ class Interpreter {
   }
 
   /// Run for multiple inputs and outputs
-  void runForMultipleInputs(List<Object> inputs, Map<int, Object> outputs) {
-    if (outputs.isEmpty) {
-      throw ArgumentError('Input error: Outputs should not be null or empty.');
-    }
-    runInference(inputs);
-    var outputTensors = getOutputTensors();
-    for (var i = 0; i < outputTensors.length; i++) {
-      outputTensors[i].copyTo(outputs[i]!);
-    }
+ void runForMultipleInputs(List<Object> inputs, Map<int, Object> outputs) {
+  if (outputs.isEmpty) {
+    throw ArgumentError('Input error: Outputs should not be null or empty.');
   }
+  runInference(inputs);
+  var outputTensors = getOutputTensors();
+
+  if (outputTensors.length != outputs.length) {
+    throw ArgumentError('Mismatch between number of output tensors and output map entries.');
+  }
+  for (var i = 0; i < outputTensors.length; i++) {
+    var tensor = outputTensors[i];
+    var outputKey = outputs.keys.elementAt(i);
+    if (!outputs.containsKey(outputKey)) {
+      throw ArgumentError('Output key $outputKey is missing in the outputs map.');
+    }
+
+    tensor.copyTo(outputs[outputKey]!);
+  }
+}
+
 
   /// Just run inference
   void runInference(List<Object> inputs) {
