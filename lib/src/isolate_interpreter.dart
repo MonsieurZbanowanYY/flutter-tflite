@@ -129,8 +129,13 @@ class IsolateInterpreter {
     final interpreter = Interpreter.fromAddress(address);
     final outputTensors = interpreter.getOutputTensors();
     for (var i = 0; i < outputTensors.length; i++) {
-      outputTensors[i].copyTo(outputs[i]!);
+    var tensor = outputTensors[i];
+    var outputKey = outputs.keys.elementAt(i); 
+    if (!outputs.containsKey(outputKey)) {
+      throw ArgumentError('Output key $outputKey is missing in the outputs map.');
     }
+    tensor.copyTo(outputs[outputKey]!);
+  }
   }
 
   // Wait for the state to change to idle.
