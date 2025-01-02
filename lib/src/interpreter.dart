@@ -177,17 +177,10 @@ class Interpreter {
   if (outputs.isEmpty) {
     throw ArgumentError('Input error: Outputs should not be null or empty.');
   }
-   print('test');
   runInference(inputs);
 
 
   var outputTensors = getOutputTensors();
-for (var tensor in outputTensors) {
-  print(tensor.shape); 
-}
-
-
-
   if (outputTensors.length != outputs.length) {
     throw ArgumentError('Mismatch between number of output tensors and output map entries.');
   }
